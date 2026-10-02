@@ -1,0 +1,7 @@
+te_class	n	A_minus3_pct	G_plus4_pct
+Low-TE (< −1.5)	1335	38.4	50.7
+Low/mid-TE	11719	49.1	58.3
+> 0.5	690	61.7	66.7
+> 1.0	109	71.6	67.0
+High-TE (> 1.5)	27	74.1	66.7
+# Fisher exact, A at -3, high-TE vs low-TE: OR=4.58, P=2.39e-04

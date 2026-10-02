@@ -1,0 +1,4 @@
+date: 2026-09-28
+g:Profiler version: e114_eg62_p19_27110d83
+parameters: {'organism': 'athaliana', 'sources': ['GO:BP', 'GO:MF', 'GO:CC', 'KEGG'], 'user_threshold': 0.05, 'significance_threshold_method': 'fdr', 'no_iea': True, 'no_evidences': False}
+custom background (sensitivity run): 24755 nuclear genes detected by RNA-seq
