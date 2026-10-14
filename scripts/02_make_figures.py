@@ -92,7 +92,7 @@ scatter(axA, "root", [("S8H", "AT3G12900", 2.2, 2.2), ("CYP82C4", "AT4G31940", 2
 scatter(axB, "shoot", [("IRT1", "AT4G19690", -2.5, 3.0), ("AT2G31141", "AT2G31141", 1.6, 1.4), ("S8H", "AT3G12900", 3.5, -4.2)])
 panel_label(axA, "b"); panel_label(axB, "c")
 leg = [Line2D([], [], marker="o", ls="", ms=3, mfc=HIGH, mec=PLUM, mew=0.3, label="Primed (log$_2$ mRNA < 0, log$_2$TE > 1.5)"),
-       Line2D([], [], marker="o", ls="", ms=3, mfc=PEACH, mec="none", label="Canonical high-TE"),
+       Line2D([], [], marker="o", ls="", ms=3, mfc=PEACH, mec="none", label="High-TE, log$_2$ mRNA ≥ 0"),
        Line2D([], [], marker="o", ls="", ms=3, mfc=MID, mec="none", label="Mid-TE"),
        Line2D([], [], marker="o", ls="", ms=3, mfc=LOW, mec="none", label="Low-TE")]
 axB.legend(handles=leg, loc="lower right", frameon=False, handletextpad=0.2, borderaxespad=0.1, fontsize=5.8)
@@ -220,11 +220,13 @@ for g, a, b in groups:
     axA.text(7.1, a - 0.75, g, fontsize=6.4, fontweight="bold", color=INK, ha="right")
     axA.axhspan(a - 0.5, b + 0.5, color=BAND if g != "Transcriptional regulators" else "white", zorder=0, lw=0)
 axA.set_title("Iron-acquisition network", loc="left", color=INK)
-leg = [Line2D([], [], marker="o", ls="", ms=4, mfc=HIGH, mec=PLUM, mew=0.6, label="Roots, primed"),
-       Line2D([], [], marker="s", ls="", ms=4, mfc=HIGH, mec=PLUM, mew=0.6, label="Shoots, primed"),
-       Line2D([], [], marker="o", ls="", ms=4, mfc="white", mec=PLUM, mew=0.6, label="Primed, <10 Ribo-seq reads"),
-       Line2D([], [], marker="o", ls="", ms=4, mfc=PEACH, mec=PEACH, label="Canonical high-TE"),
-       Line2D([], [], marker="o", ls="", ms=4, mfc=MID, mec=MID, label="Mid-TE")]
+leg = [Line2D([], [], marker="o", ls="", ms=4, mfc="none", mec=INK2, mew=0.6, label="Roots"),
+       Line2D([], [], marker="s", ls="", ms=4, mfc="none", mec=INK2, mew=0.6, label="Shoots"),
+       Line2D([], [], marker="o", ls="", ms=4, mfc=HIGH, mec=PLUM, mew=0.6, label="Primed (≥ 10 Ribo-seq reads)"),
+       Line2D([], [], marker="o", ls="", ms=4, mfc="white", mec=PLUM, mew=0.6, label="Primed (< 10 Ribo-seq reads)"),
+       Line2D([], [], marker="o", ls="", ms=4, mfc=PEACH, mec=PEACH, label="High-TE, log$_2$ mRNA ≥ 0"),
+       Line2D([], [], marker="o", ls="", ms=4, mfc=MID, mec=MID, label="Mid-TE"),
+       Line2D([], [], ls="", marker="$†$", ms=5, color=INK, label="Protein detected")]
 axA.legend(handles=leg, loc="lower right", frameon=True, facecolor="white", edgecolor="none", fontsize=5.6, handletextpad=0.2,
            borderaxespad=0.2)
 panel_label(axA, "b", x=axA.get_position().x0 - 0.11)

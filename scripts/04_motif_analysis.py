@@ -1,4 +1,4 @@
-"""Re-analysis of the CTATAWAWA-like motif (MEME motif 6) in start-codon-proximal windows.
+"""Analysis of the CTATAWAWA-like motif (MEME motif 6) in start-codon-proximal windows.
 
 Inputs (data/motif/):
   high-TE_200bp.fasta, low-TE_200bp.fasta, low-mid-TE_200bp.fasta  (-150..+50 relative to the A of the AUG;
@@ -8,18 +8,19 @@ Inputs (data/motif/):
 What it does
   1. Scores every window with the motif PWM (log-odds vs. the nucleotide composition of all windows,
      FIMO-style pseudocount), sense strand; a site = window position with PWM P < 1e-4.
-  2. Tests enrichment (two-sided Fisher's exact test) in
-       - the discovery set (high-TE, n = 27; circular, the motif was built from these sequences),
+  2. Tests enrichment (two-sided Fisher's exact test, real sequences as background) in
+       - the discovery set (high-TE, n = 27; reported for reference; the selection of motif 6 is based on SEA,
+         see data/meme_sea),
        - two independent validation sets not used for discovery: 1.0 < log2TE <= 1.5 and 0.5 < log2TE <= 1.5
          in both tissues (sequences taken from the low/mid-TE file),
      against low-TE genes and against the remaining low/mid-TE genes.
-  3. Compares each set with first-order Markov (dinucleotide) shuffles of its own sequences (SEA-like control).
-  4. Locates every site relative to the AUG and to the annotated transcription start site (5'UTR length from
+  3. Locates every site relative to the AUG and to the annotated transcription start site (5'UTR length from
      Araport11 models in TranslationEfficiency2.xlsx) -> within the 5'UTR (transcribed) or upstream (promoter).
-  5. Scans the -150..-1 window of the 701 nuclear translationally primed genes (data/motif/primed_701_upstream150.fasta)
+  4. Scans the -150..-1 window of the 701 nuclear translationally primed genes
+     (data/meme_sea/validation_20261014/sequences/primed_target.fasta, extracted by W.-D. Lin with the same rules as the other windows)
      and compares it with the same window of the sets above; sites are located relative to the annotated TSS.
 Outputs: results/motif_enrichment.tsv, motif_sites.tsv, motif_primed_upstream150.tsv,
-         figures/FigureS1_motif_reanalysis.{png,pdf}
+         figures/FigureS1_motif_analysis.{png,pdf}
 """
 import re
 import numpy as np
@@ -157,10 +158,8 @@ for name, d in sets.items():
             where = "5'UTR" if (not np.isnan(ulen) and p >= ATG - ulen and p + W <= ATG) else (
                 "CDS" if p >= ATG else "upstream of annotated TSS")
             site_rows.append(dict(set=name, gene_model=g, start=int(p) - ATG, centre=int(centre), utr5_len=ulen, location=where))
-    nshuf = 20 if len(d) < 2000 else 3
-    shuf = markov_shuffle_hits([d[g] for g in genes], nshuf)
     rows.append(dict(set=name, n=len(d), with_site=n_hit, pct=100 * n_hit / len(d), regex_exact=n_rx,
-                     regex_pct=100 * n_rx / len(d), shuffled_pct=100 * shuf,
+                     regex_pct=100 * n_rx / len(d),
                      median_5utr_len=float(np.nanmedian([m.utr5_len.get(g, np.nan) for g in d]))))
 res = pd.DataFrame(rows)
 ref_low = res.iloc[4]; ref_lm = res.iloc[3]
@@ -170,8 +169,6 @@ for i, r in res.iterrows():
             res.loc[i, f"OR_{lab}"] = np.nan; res.loc[i, f"P_{lab}"] = np.nan; continue
         f = fisher_exact([[r.with_site, r.n - r.with_site], [ref.with_site, ref.n - ref.with_site]])
         res.loc[i, f"OR_{lab}"] = f.statistic; res.loc[i, f"P_{lab}"] = f.pvalue
-    f = fisher_exact([[r.with_site, r.n - r.with_site], [round(r.shuffled_pct * r.n / 100), r.n - round(r.shuffled_pct * r.n / 100)]])
-    res.loc[i, "P_vs_shuffled"] = f.pvalue
 sites_df = pd.DataFrame(site_rows)
 loc = sites_df.groupby("set").location.value_counts().unstack(fill_value=0)
 res = res.merge(loc, left_on="set", right_index=True, how="left")
@@ -187,7 +184,7 @@ print("\nsite centres (median, IQR) by set:")
 print(sites_df.groupby("set").centre.describe()[["count", "25%", "50%", "75%"]])
 
 # ---- primed genes: -150..-1 window vs the same window of the other sets ------
-primed = read_fasta(MOTIF / "primed_701_upstream150.fasta")
+primed = read_fasta(ROOT / "data" / "meme_sea" / "validation_20261014" / "sequences" / "primed_target.fasta")
 up_sets = {"Primed (701 nuclear)": primed, **{k: {g: s[:ATG] for g, s in v.items()} for k, v in sets.items()}}
 utr_g = m.utr5_len.copy(); utr_g.index = utr_g.index.str.split(".").str[0]; utr_g = utr_g[~utr_g.index.duplicated()]
 prow = []
@@ -227,12 +224,10 @@ if __name__ == "__main__":
     ax_b = fig.add_axes([0.09, 0.13, 0.385, 0.31]); ax_c = fig.add_axes([0.66, 0.13, 0.325, 0.31])
     a = ax_a; x = np.arange(len(res))
     a.bar(x, res.pct, color=cols, width=0.62, lw=0)
-    a.scatter(x, res.shuffled_pct, marker="_", s=120, color=INK, zorder=3, label="Shuffled control")
     for i, r in res.iterrows():
         a.text(i, r.pct + 1.2, f"{r.pct:.1f}%\n({r.with_site}/{r.n})", ha="center", fontsize=5.6, color=INK)
     a.set_xticks(x); a.set_xticklabels(["High-TE\n(discovery)", "1.0–1.5\n(indep.)", "0.5–1.5\n(indep.)", "Low/mid", "Low-TE"], fontsize=6)
     a.set_ylabel("Sequences with site (%)"); a.set_ylim(0, max(res.pct) * 1.45)
-    a.legend(frameon=False, loc="upper right", fontsize=6)
     a.set_title("a  Motif prevalence, −150 to +50 nt (PWM, P < 10$^{-4}$)", loc="left", fontsize=7.5)
     b = ax_b
     for i, (name, colr) in enumerate(zip(res.set, cols)):
@@ -276,5 +271,5 @@ if __name__ == "__main__":
     d.legend(frameon=False, fontsize=6, loc="upper right", bbox_to_anchor=(1.0, 1.02))
     d.set_title("b  Translationally primed genes, −150 to −1 nt", loc="left", fontsize=7.5)
     for ext in ("png", "pdf"):
-        fig.savefig(FIGURES / f"FigureS1_motif_reanalysis.{ext}", dpi=600)
+        fig.savefig(FIGURES / f"FigureS1_motif_analysis.{ext}", dpi=600)
     print("figure written")

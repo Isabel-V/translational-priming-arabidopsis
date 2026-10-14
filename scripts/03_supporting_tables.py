@@ -1,6 +1,6 @@
 """Supporting Information tables (Tables S1-S9) and Table 1 for the translational-priming Letter.
 
-Requires the outputs of scripts 01, 02 (Fig. 2b source data), 04 (motif re-analysis) and the g:Profiler results in
+Requires the outputs of scripts 01, 02 (Fig. 2b source data), 04 (motif analysis) and the g:Profiler results in
 data/gprofiler/results (script 05).
 Output: supporting_information/Supporting_Information_Tables_S1-S9.xlsx
         results/Table1_protein_evidence.tsv
@@ -139,13 +139,13 @@ gp_terms = pd.concat(gp_terms).rename(columns={"source": "Source", "native": "Te
                                                "intersection_size": "Genes in term", "intersections": "Genes (AGI)"})
 gp_info = (GPR / "run_info.txt").read_text().splitlines()[1]
 
-# ---- 5'UTR motif re-analysis (script 04) + MEME low-TE motifs (original discovery) --
+# ---- 5'UTR motif analysis (script 04) + MEME low-TE motifs (original discovery) --
 mot = pd.read_csv(RESULTS / "motif_enrichment.tsv", sep="\t", comment="#")
 mot = mot.rename(columns={"set": "Gene set", "n": "Sequences (n)", "with_site": "With >=1 PWM site (n)", "pct": "With site (%)",
                           "regex_exact": "Exact CTATA[AT]A[AT]A match (n)", "regex_pct": "Exact match (%)",
-                          "shuffled_pct": "With site, Markov-shuffled sequences (%)", "median_5utr_len": "Median annotated 5'UTR (nt)",
+                          "median_5utr_len": "Median annotated 5'UTR (nt)",
                           "OR_vs_low": "OR vs low-TE", "P_vs_low": "Fisher P vs low-TE", "OR_vs_lowmid": "OR vs low/mid-TE",
-                          "P_vs_lowmid": "Fisher P vs low/mid-TE", "P_vs_shuffled": "Fisher P vs shuffled",
+                          "P_vs_lowmid": "Fisher P vs low/mid-TE",
                           "5'UTR": "Sites in annotated 5'UTR", "upstream of annotated TSS": "Sites upstream of annotated TSS", "CDS": "Sites in CDS"})
 motp = pd.read_csv(RESULTS / "motif_primed_upstream150.tsv", sep="\t").rename(columns={
     "set": "Gene set", "n": "Sequences (n)", "with_site": "With >=1 PWM site (n)", "pct": "With site (%)", "regex": "Exact match (n)",
@@ -163,6 +163,34 @@ msites = pd.read_csv(RESULTS / "motif_sites.tsv", sep="\t").rename(columns={
     "set": "Gene set", "gene_model": "Gene model", "start": "Site start (nt from A of AUG)", "centre": "Site centre (nt from A of AUG)",
     "utr5_len": "Annotated 5'UTR length (nt)", "location": "Location"})
 meme = pd.read_excel(MOTIF_FILE, sheet_name="Motif_discovery_lowTE")
+
+# ---- SEA enrichment (MEME Suite 5.4.1; W.-D. Lin) ----------------------------------
+SEA = ROOT / "data" / "meme_sea"
+SEA_RUNS = [  # (folder, target set, background set)
+    ("sea_discovery/generalMid_TEhigh.utr5_SEA_1", "High-TE (log2TE > 1.5 in both tissues; discovery set), -150/+50", "Low-TE, -150/+50"),
+    ("sea_discovery/generalMid_TEhigh.utr5_MidLow_SEA_1", "High-TE (log2TE > 1.5 in both tissues; discovery set), -150/+50", "Low/mid-TE (all), -150/+50"),
+]
+
+
+def read_sea(folder):
+    t = pd.read_csv(SEA / folder / "sea.tsv", sep="\t", comment="#")
+    return t.dropna(subset=["ID"])
+
+
+sea_rows, sea_full = [], []
+for folder, target, bgset in SEA_RUNS:
+    t = read_sea(folder)
+    r = t[t.CONSENSUS == "CTATAWAWA"]
+    if len(r):
+        r = r.iloc[0]
+        sea_rows.append({"Target sequences": target, "Background sequences": bgset,
+                         "Target with motif (n)": int(r.TP), "Target with motif (%)": r["TP%"],
+                         "Background with motif (n)": int(r.FP), "Background with motif (%)": r["FP%"],
+                         "Enrichment ratio": r.ENR_RATIO, "Score threshold": r.SCORE_THR,
+                         "P value": f"{r.PVALUE:.2e}", "E value": f"{r.EVALUE:.2e}", "SEA output": folder})
+    if folder == "sea_discovery/generalMid_TEhigh.utr5_SEA_1":
+        sea_full = t.drop(columns=["DB"]).assign(**{"SEA output": folder})
+sea_tab = pd.DataFrame(sea_rows)
 
 # ---- assemble workbook --------------------------------------------------
 readme = [
@@ -191,12 +219,13 @@ readme = [
     ("Table S7", "Iron-acquisition network genes (source data for Fig. 2b)."),
     ("Table S8", "Nucleotide frequencies around the AUG start codon by TE set (W.-D. Lin; source data for Fig. 2c). "
                  "Sets restricted to genes with log2 RNA-seq RPKM >= 2 in both tissues; thresholds > 0.5 and > 1.0 are nested and include the high-TE set."),
-    ("Table S9", "CTATA[A/T]A[A/T]A-like motif (MEME motif 6, discovered in the 27 high-TE sequences) - source data for Fig. S1. "
-                 "(A) PWM scan (site P < 1e-4, sense strand) of the -150/+50 window around the AUG in the discovery set, two independent validation sets "
-                 "(1.0 < log2TE <= 1.5 and 0.5 < log2TE <= 1.5 in both tissues; not used for discovery), the remaining low/mid-TE and the low-TE genes; Fisher's exact tests "
-                 "and first-order Markov-shuffle control; location of sites relative to the annotated 5'UTR. (B) Same scan of the -150/-1 window of the 701 nuclear primed genes. "
-                 "(C) Every site. (D) Motifs discovered by MEME in low-TE sequences (original analysis). Discovery-set statistics are circular (motif derived from the same sequences; "
-                 "MEME E = 5.5e4) and are shown for reference only."),
+    ("Table S9", "CTATA[A/T]A[A/T]A-like motif (MEME motif 6; MEME v.4.12.0, discovered in the -150/-51 region of the 27 high-TE sequences) - source data for Fig. S1. "
+                 "(A) SEA (MEME Suite v.5.4.1; W.-D. Lin) of the MEME motifs in the discovery set (high-TE vs low-TE and vs low/mid-TE sequences), used to select motif 6. "
+                 "(B) PWM scan (site P < 1e-4, sense strand) of the -150/+50 window in the discovery set, two independent sets not used for discovery "
+                 "(1.0 < log2TE <= 1.5 and 0.5 < log2TE <= 1.5 in both tissues), the remaining low/mid-TE and the low-TE genes; two-sided Fisher's exact tests against "
+                 "the remaining low/mid-TE and the low-TE genes (real sequences); location of sites relative to the annotated 5'UTR. "
+                 "(C) Same scan of the -150/-1 window of the 701 nuclear primed genes; (E) motifs discovered by MEME in low-TE sequences. "
+                 "Sheet 'Table S9 (D) motif sites': position and location of every site."),
     ("", ""),
     ("Code", "All tables and figures are generated by the scripts in the accompanying GitHub repository (scripts/01-05)."),
 ]
@@ -222,10 +251,13 @@ with pd.ExcelWriter(out, engine="openpyxl") as xw:
                              "rna_reads": "RNA-seq reads", "protein": "Protein detected (root or shoot)"}).to_excel(
             xw, sheet_name="Table S7 iron network", index=False)
     kz.to_excel(xw, sheet_name="Table S8 start-codon context", index=False)
+    sea_tab.to_excel(xw, sheet_name="Table S9 (A) SEA", index=False)
+    if len(sea_full):
+        sea_full.to_excel(xw, sheet_name="Table S9 (A) SEA", index=False, startrow=len(sea_tab) + 3)
     mot.to_excel(xw, sheet_name="Table S9 motif", index=False)
     motp.to_excel(xw, sheet_name="Table S9 motif", index=False, startrow=len(mot) + 3)
     meme.to_excel(xw, sheet_name="Table S9 motif", index=False, startrow=len(mot) + len(motp) + 6)
-    msites.to_excel(xw, sheet_name="Table S9 (C) motif sites", index=False)
+    msites.to_excel(xw, sheet_name="Table S9 (D) motif sites", index=False)
 
 wb = load_workbook(out)
 hdr = PatternFill("solid", fgColor="E8E7E3")
@@ -243,13 +275,14 @@ for r in ws.iter_rows(min_row=2):
         r[0].font = Font(bold=True, size=13)
 for name, title_row in (("Table S3 (C) ath00999", len(kegg_summary) + 4), ("Table S5 protein vs reads", len(prot_reads) + 4),
                         ("Table S3 GO-KEGG enrichment", len(gp_sum) + 4), ("Table S9 motif", len(mot) + 4),
-                        ("Table S9 motif", len(mot) + len(motp) + 7)):
+                        ("Table S9 motif", len(mot) + len(motp) + 7), ("Table S9 (A) SEA", len(sea_tab) + 4)):
     for c in wb[name][title_row]:
         c.font = Font(bold=True); c.fill = hdr
 # section labels
 for name, row, text in (("Table S3 GO-KEGG enrichment", len(gp_sum) + 3, "(B) Significant terms (FDR < 0.05)"),
-                        ("Table S9 motif", len(mot) + 3, "(B) Translationally primed genes, -150/-1 window, compared with the same window of the sets in (A)"),
-                        ("Table S9 motif", len(mot) + len(motp) + 6, "(D) Motifs discovered by MEME in low-TE sequences (original analysis)")):
+                        ("Table S9 motif", len(mot) + 3, "(C) Translationally primed genes, -150/-1 window, compared with the same window of the sets in (B)"),
+                        ("Table S9 motif", len(mot) + len(motp) + 6, "(E) Motifs discovered by MEME in low-TE sequences (original analysis)"),
+                        ("Table S9 (A) SEA", len(sea_tab) + 3, "All MEME motifs of the discovery run (high-TE, -150/-51) tested with SEA against low-TE sequences")):
     wb[name].cell(row=row, column=1, value=text).font = Font(bold=True, italic=True)
 ws = wb["Table S3 GO-KEGG enrichment"]; ws.column_dimensions["J"].width = 60
 # ---- table headings (one title row above each sheet) --------------------------
@@ -263,8 +296,9 @@ TITLES = {
     "Table S6 shared nuclear": "Table S6 Nuclear-encoded genes primed in both roots and shoots (n = 41), ranked by mean log₂TE (source data for Fig. 2a).",
     "Table S7 iron network": "Table S7 Iron-acquisition network genes: TE, transcript abundance, read support and protein evidence in roots and shoots (source data for Fig. 2b).",
     "Table S8 start-codon context": "Table S8 Nucleotide frequencies around the AUG start codon by TE class (source data for Fig. 2c).",
-    "Table S9 motif": "Table S9 CTATA[A/T]A[A/T]A-like motif (source data for Fig. S1). (A) Prevalence and enrichment tests, −150 to +50 nt; (B) translationally primed genes, −150 to −1 nt; (D) motifs discovered by MEME in low-TE sequences.",
-    "Table S9 (C) motif sites": "Table S9 (continued) (C) Position and location of every motif site.",
+    "Table S9 (A) SEA": "Table S9 CTATA[A/T]A[A/T]A-like motif (source data for Fig. S1). (A) Enrichment of the MEME motifs in high-TE sequences (SEA, MEME Suite v.5.4.1).",
+    "Table S9 motif": "Table S9 (continued) (B) Motif prevalence (PWM scan) and Fisher's exact tests, −150 to +50 nt; (C) translationally primed genes, −150 to −1 nt; (E) motifs discovered by MEME in low-TE sequences.",
+    "Table S9 (D) motif sites": "Table S9 (continued) (D) Position and location of every motif site.",
 }
 for name, title in TITLES.items():
     ws = wb[name]
