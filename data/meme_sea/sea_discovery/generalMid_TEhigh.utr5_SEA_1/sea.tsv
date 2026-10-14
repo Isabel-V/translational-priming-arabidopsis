@@ -1,0 +1,25 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	generalMid_TEhigh.utr5_MEME_1/meme.xml	CTATAWAWA	MEME-6	CTATAWAWA	13	48.15	54	4.04	12.1	12	3.55e-10	-21.76	1.14e-8	-18.29	1.14e-8	-18.29
+2	generalMid_TEhigh.utr5_MEME_1/meme.xml	YTCTCGAVA	MEME-1	YTCTCGAVA	24	88.89	399	29.89	2.98	6.8	6.52e-9	-18.85	2.09e-7	-15.38	1.04e-7	-16.08
+3	generalMid_TEhigh.utr5_MEME_1/meme.xml	GRSDAHAARW	MEME-5	GRSDRNAARW	8	29.63	47	3.52	8.95	11	3.10e-5	-10.38	9.93e-4	-6.91	3.31e-4	-8.01
+4	generalMid_TEhigh.utr5_MEME_1/meme.xml	AAACWMAAM	MEME-2	AAACWMAAM	11	40.74	141	10.56	4.03	11	4.40e-4	-7.73	1.41e-2	-4.26	3.52e-3	-5.65
+5	generalMid_TEhigh.utr5_MEME_1/meme.xml	YTTYTTCTTCAY	MEME-3	YTTYTTCTTCAY	11	40.74	172	12.88	3.31	9.9	2.13e-3	-6.15	6.82e-2	-2.69	1.36e-2	-4.29
+6	generalMid_TEhigh.utr5_MEME_1/meme.xml	CAKCCTTYT	MEME-13	CAKCCTTYT	9	33.33	127	9.51	3.73	9.7	4.45e-3	-5.41	1.43e-1	-1.95	2.13e-2	-3.85
+7	generalMid_TEhigh.utr5_MEME_1/meme.xml	KMKAA	MEME-27	KMKAA	20	74.07	533	39.93	1.88	6.6	4.65e-3	-5.37	1.49e-1	-1.91	2.13e-2	-3.85
+8	generalMid_TEhigh.utr5_MEME_1/meme.xml	GAAGT	MEME-8	GAAGT	19	70.37	521	39.03	1.83	7.7	6.52e-3	-5.03	2.09e-1	-1.57	2.45e-2	-3.71
+9	generalMid_TEhigh.utr5_MEME_1/meme.xml	ACCAAAMCA	MEME-9	ACCAAAMCA	7	25.93	79	5.92	4.77	12	6.90e-3	-4.98	2.21e-1	-1.51	2.45e-2	-3.71
+10	generalMid_TEhigh.utr5_MEME_1/meme.xml	WATCW	MEME-29	WATCW	26	96.30	960	71.91	1.34	6.1	1.69e-2	-4.08	5.42e-1	-0.61	5.15e-2	-2.97
+11	generalMid_TEhigh.utr5_MEME_1/meme.xml	RRARWTGA	MEME-12	RRARWTGA	16	59.26	393	29.44	2.06	8.3	1.77e-2	-4.03	5.66e-1	-0.57	5.15e-2	-2.97
+12	generalMid_TEhigh.utr5_MEME_1/meme.xml	TCACAAT	MEME-14	TCACAAT	10	37.04	192	14.38	2.72	9.1	2.06e-2	-3.88	6.60e-1	-0.42	5.50e-2	-2.90
+13	generalMid_TEhigh.utr5_MEME_1/meme.xml	GCTTG	MEME-18	GCTTG	8	29.63	208	15.58	2.05	8.4	9.97e-2	-2.31	3.19e0	1.16	2.45e-1	-1.41
+14	generalMid_TEhigh.utr5_MEME_1/meme.xml	CTCTG	MEME-7	CTCTG	2	7.41	35	2.62	3.98	9.8	1.65e-1	-1.80	5.28e0	1.66	3.77e-1	-0.97
+15	generalMid_TEhigh.utr5_MEME_1/meme.xml	TTGTT	MEME-10	TTGTT	24	88.89	944	70.71	1.26	7.2	2.07e-1	-1.58	6.61e0	1.89	3.98e-1	-0.92
+16	generalMid_TEhigh.utr5_MEME_1/meme.xml	ATKTDRG	MEME-17	ATKTDRG	11	40.74	316	23.67	1.81	8.4	2.12e-1	-1.55	6.77e0	1.91	3.98e-1	-0.92
+17	generalMid_TEhigh.utr5_MEME_1/meme.xml	AWCRC	MEME-19	AWCRC	26	96.30	1095	82.02	1.18	6.2	2.16e-1	-1.53	6.91e0	1.93	3.98e-1	-0.92
+18	generalMid_TEhigh.utr5_MEME_1/meme.xml	GACTC	MEME-16	GACTC	7	25.93	169	12.66	2.25	8.9	2.24e-1	-1.50	7.17e0	1.97	3.98e-1	-0.92
+19	generalMid_TEhigh.utr5_MEME_1/meme.xml	ATCTC	MEME-15	ATCTC	13	48.15	400	29.96	1.67	7.7	2.64e-1	-1.33	8.44e0	2.13	4.42e-1	-0.82
+20	generalMid_TEhigh.utr5_MEME_1/meme.xml	AACCK	MEME-21	AACCK	12	44.44	414	31.01	1.49	7.8	2.76e-1	-1.29	8.84e0	2.18	4.42e-1	-0.82
+
+# SEA (Simple Enrichment Analysis): Version 5.4.1 compiled on May 31 2022 at 04:33:13
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --verbosity 1 --oc generalMid_TEhigh.utr5_SEA_1 --thresh 10.0 --align center --p generalMid_TEhigh.utr5.fasta --n generalMid_TElow.utr5.fasta --m generalMid_TEhigh.utr5_MEME_1/meme.xml

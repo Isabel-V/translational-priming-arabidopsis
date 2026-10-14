@@ -1,0 +1,12 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	PWM_min	TP	%TP	FP	%FP
+1	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	CTATAWAWA	MEME-6	CTATAWAWA	1.54e-20	1.13e-17	3.61e-16	734	625	625	1335	996	116	18.56	66	4.94
+2	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	ATCTC	MEME-15	ATCTC	1.97e-12	3.59e-9	1.15e-7	1822	625	625	1335	501	311	49.76	443	33.18
+3	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GACTC	MEME-16	GACTC	1.79e-7	3.44e-4	1.10e-2	1920	625	625	1335	236	285	45.60	447	33.48
+4	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	YCTYT	MEME-30	YCTYT	1.37e-6	2.69e-3	8.60e-2	1960	625	625	1335	92.6	556	88.96	1076	80.60
+5	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	YTTYTTCTTCAY	MEME-3	YTTYTTCTTCAY	3.02e-6	3.86e-3	1.24e-1	1281	625	625	1335	34.2	428	68.48	771	57.75
+6	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GRSDAHAARW	MEME-5	GRSDRNAARW	1.13e-5	1.67e-2	5.33e-1	1486	625	625	1335	210	381	60.96	676	50.64
+7	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	KMKAA	MEME-27	KMKAA	1.03e-4	1.82e-1	5.83e0	1960	625	625	1335	115	180	28.80	280	20.97
+
+# AME (Analysis of Motif Enrichment): Version 5.4.1 compiled on May 31 2022 at 04:33:09
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --oc cmp1_target1_bkg2_AME --scoring max --control cpm1_bkg2.fasta cpm1_target1.fasta ../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml

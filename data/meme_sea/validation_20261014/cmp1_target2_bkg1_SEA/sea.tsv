@@ -1,0 +1,12 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	KMKAA	MEME-27	KMKAA	40	74.07	6321	63.30	1.18	6.2	6.46e-2	-2.74	2.07e0	0.73	7.30e-1	-0.31
+2	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GAAGT	MEME-8	GAAGT	12	22.22	1400	14.02	1.68	9.1	6.87e-2	-2.68	2.20e0	0.79	7.30e-1	-0.31
+3	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	CTATAWAWA	MEME-6	CTATAWAWA	30	55.56	4631	46.37	1.22	2.8	1.13e-1	-2.18	3.61e0	1.28	7.30e-1	-0.31
+4	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	TTCRR	MEME-25	TTCRR	9	16.67	1060	10.61	1.71	6.8	1.15e-1	-2.16	3.69e0	1.31	7.30e-1	-0.31
+5	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GCTTG	MEME-18	GCTTG	7	12.96	771	7.72	1.88	8.7	1.22e-1	-2.11	3.90e0	1.36	7.30e-1	-0.31
+6	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	TAMTT	MEME-20	TAMTT	28	51.85	4345	43.51	1.21	8.5	1.37e-1	-1.99	4.38e0	1.48	7.30e-1	-0.31
+7	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GRSDAHAARW	MEME-5	GRSDRNAARW	41	75.93	7070	70.80	1.08	3.5	2.53e-1	-1.37	8.10e0	2.09	9.21e-1	-0.08
+
+# SEA (Simple Enrichment Analysis): Version 5.4.1 compiled on May 31 2022 at 04:33:13
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --verbosity 1 --oc cmp1_target2_bkg1_SEA --thresh 10.0 --align center --p cpm1_target2.fasta --n cpm1_bkg1.fasta --m ../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml

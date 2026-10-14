@@ -1,0 +1,4 @@
+
+# AME (Analysis of Motif Enrichment): Version 5.4.1 compiled on May 31 2022 at 04:33:09
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --oc cmp1_target2_bkg1_AME --scoring max --control cpm1_bkg1.fasta cpm1_target2.fasta ../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml

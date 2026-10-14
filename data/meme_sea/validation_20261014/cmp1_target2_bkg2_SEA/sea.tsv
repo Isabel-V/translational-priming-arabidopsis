@@ -1,0 +1,16 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	CTATAWAWA	MEME-6	CTATAWAWA	26	48.15	370	30.78	1.59	4.1	6.74e-3	-5.00	2.16e-1	-1.53	2.16e-1	-1.53
+2	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	TAMTT	MEME-20	TAMTT	25	46.30	436	36.27	1.3	8.6	8.96e-2	-2.41	2.87e0	1.05	8.42e-1	-0.17
+3	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	TTCRR	MEME-25	TTCRR	8	14.81	107	8.90	1.82	6.7	1.13e-1	-2.18	3.60e0	1.28	8.42e-1	-0.17
+4	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GRSDAHAARW	MEME-5	GRSDRNAARW	40	74.07	784	65.22	1.14	3.8	1.15e-1	-2.16	3.68e0	1.30	8.42e-1	-0.17
+5	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	KMKAA	MEME-27	KMKAA	46	85.19	950	79.03	1.08	5.8	1.80e-1	-1.71	5.76e0	1.75	8.42e-1	-0.17
+6	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	ATKTDRG	MEME-17	ATKTDRG	40	74.07	807	67.14	1.11	6.6	1.81e-1	-1.71	5.78e0	1.75	8.42e-1	-0.17
+7	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GAAGT	MEME-8	GAAGT	37	68.52	741	61.65	1.12	7	1.92e-1	-1.65	6.14e0	1.81	8.42e-1	-0.17
+8	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	CAKCCTTYT	MEME-13	CAKCCTTYT	11	20.37	194	16.14	1.35	8.9	2.55e-1	-1.37	8.17e0	2.10	8.42e-1	-0.17
+9	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	GCTTG	MEME-18	GCTTG	7	12.96	115	9.57	1.51	8.5	2.65e-1	-1.33	8.49e0	2.14	8.42e-1	-0.17
+10	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	YTCTCGAVA	MEME-1	YTCTCGAVA	7	12.96	115	9.57	1.51	9.2	2.65e-1	-1.33	8.49e0	2.14	8.42e-1	-0.17
+11	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	TTGTT	MEME-10	TTGTT	45	83.33	951	79.12	1.06	6.6	2.90e-1	-1.24	9.27e0	2.23	8.42e-1	-0.17
+
+# SEA (Simple Enrichment Analysis): Version 5.4.1 compiled on May 31 2022 at 04:33:13
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --verbosity 1 --oc cmp1_target2_bkg2_SEA --thresh 10.0 --align center --p cpm1_target2.fasta --n cpm1_bkg2.fasta --m ../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml

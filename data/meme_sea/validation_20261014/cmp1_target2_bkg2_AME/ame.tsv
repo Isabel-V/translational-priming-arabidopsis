@@ -1,0 +1,6 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	PWM_min	TP	%TP	FP	%FP
+1	../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml	CTATAWAWA	MEME-6	CTATAWAWA	1.21e-6	5.51e-4	1.76e-2	456	60	60	1335	1.33e+03	14	23.33	61	4.57
+
+# AME (Analysis of Motif Enrichment): Version 5.4.1 compiled on May 31 2022 at 04:33:09
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --oc cmp1_target2_bkg2_AME --scoring max --control cpm1_bkg2.fasta cpm1_target2.fasta ../separate/generalMid_TEhigh.utr5_MEME_1/meme.xml
